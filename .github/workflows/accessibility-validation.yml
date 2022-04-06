@@ -1,0 +1,39 @@
+name: Accessibility Validation
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - '**'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v1
+              with:
+                dotnet-version: '6.0.x'
+                include-prerelease: true
+                
+            - name: Build with dotnet
+              run: dotnet build ./eShopOnWeb.sln --configuration Release
+              
+            - name: Run from Web Folder
+              working-directory: ./src/Web
+              run: dotnet run --launch-profile Web &
+            
+            - name: Scan for accessibility issues
+              uses: microsoft/accessibility-insights-action@v2
+              with:
+                  url: http://localhost:5001/
+                  
+            - name: Upload report artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: accessibility-reports
+                  path: ${{ github.workspace }}/_accessibility-reports
