@@ -19,9 +19,6 @@ jobs:
               with:
                 dotnet-version: '6.0.x'
                 include-prerelease: true
-                
-            - name: Build with dotnet
-              run: dotnet build ./eShopOnWeb.sln --configuration Release
               
             - name: Docker commands
               run: docker-compose build
@@ -31,7 +28,7 @@ jobs:
               uses: microsoft/accessibility-insights-action@v2
               with:
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
-                  url: https://localhost:5106/
+                  url: http://localhost:5106/
                   
             - name: Upload report artifact
               uses: actions/upload-artifact@v2
