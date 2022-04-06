@@ -30,6 +30,7 @@ jobs:
             - name: Scan for accessibility issues
               uses: microsoft/accessibility-insights-action@v2
               with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
                   url: http://localhost:5001/
                   
             - name: Upload report artifact
