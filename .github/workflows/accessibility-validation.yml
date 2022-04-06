@@ -23,9 +23,9 @@ jobs:
             - name: Build with dotnet
               run: dotnet build ./eShopOnWeb.sln --configuration Release
               
-            - name: Run from Web Folder
-              working-directory: ./src/Web
-              run: dotnet run --launch-profile Web &
+            - name: Docker commands
+              run: docker-compose build
+            - run: docker-compose up -d
             
             - name: Scan for accessibility issues
               uses: microsoft/accessibility-insights-action@v2
